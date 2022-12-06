@@ -26,7 +26,7 @@ sudo systemctl start postgresql.service
 groupadd -r postgres
 useradd -r -g postgres --home-dir=/var/lib/postgresql --shell=/bin/bash postgres
 
-# Installing PostGIS 3.2
+# Installing PostGIS
 sudo apt install -y autoconf libtool libpcre3-dev libxml2-dev libgeos-dev libprotobuf-c-dev protobuf-c-compiler xsltproc docbook-xsl libgdal-dev
 pg_version="$(psql -V | cut -d " " -f 3 | cut -d "." -f 1)"
 sudo apt install -y postgis postgresql-$pg_version-postgis-3
@@ -41,15 +41,6 @@ sudo echo 'export PATH=$PATH:/usr/local/pgsql/bin' >> /root/.bashrc
 # Installing H3
 sudo pgxn install h3
 
-# gis user setup
-# sudo usermod -aG adm gis
-# sudo usermod -aG gis www-data
-# sudo mkdir -p ~gis/{public_html,domlogs}
-# sudo chown root:gis ~gis/domlogs
-# sudo chown gis:gis ~gis/public_html
-# sudo chmod 0750 ~gis/{public_html,domlogs}
-# sudo su gis -c "echo 'export PATH=\$PATH:/usr/local/pgsql/bin' >> /home/gis/.bashrc"
-
 # Ubuntu Postgres stuff
 sudo apt install -y postgresql-common
 
@@ -59,7 +50,7 @@ set_system_locale
 
 ## Create cluster and systemd service
 sudo pg_createcluster $pg_version main 
-# }}
+
 ## Comment out "states_temp_directory" parameter from config (not recognized by PG15)
 sudo sed -i 's/stats_temp_directory/#stats_temp_directory/g' /etc/postgresql/$pg_version/main/postgresql.conf
 
