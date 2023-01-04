@@ -36,10 +36,16 @@ sudo apt install -y postgresql-server-dev-$pg_version
 # Installing pgxnclient
 sudo apt install -y pgxnclient
 ## pgxn has to call pg_config, add PG pinaries to PATH
-sudo echo 'export PATH=$PATH:/usr/local/pgsql/bin' >> /root/.bashrc
+## sudo echo 'export PATH=$PATH:/usr/local/pgsql/bin' >> /root/.bashrc
 
 # Installing H3
-sudo pgxn install h3
+if [ -d "/usr/lib/postgresql/$pg_version/lib/bitcode/h3/" ] && [ -e "/usr/lib/postgresql/$pg_version/lib/bitcode/h3.index.bc" ] && [ -e "/usr/lib/postgresql/$pg_version/lib/h3.so" ]
+then
+   echo "Skip h3 installation: h3 already installed"
+else
+   echo "h3 doesn't exist, run h3 installation"
+   sudo pgxn install h3  
+fi
 
 # Ubuntu Postgres stuff
 sudo apt install -y postgresql-common
@@ -49,7 +55,7 @@ sudo apt install -y postgresql-common
 set_system_locale
 
 ## Create cluster and systemd service
-sudo pg_createcluster $pg_version main 
+#sudo pg_createcluster $pg_version main 
 
 ## Comment out "states_temp_directory" parameter from config (not recognized by PG15)
 sudo sed -i 's/stats_temp_directory/#stats_temp_directory/g' /etc/postgresql/$pg_version/main/postgresql.conf
