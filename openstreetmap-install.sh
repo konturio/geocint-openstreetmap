@@ -35,7 +35,7 @@ sudo apt install -y postgresql-server-dev-$pg_version
 
 # Installing pgxnclient
 sudo apt install -y pgxnclient
-## pgxn has to call pg_config, add PG pinaries to PATH
+## pgxn has to call pg_config, add PG binaries to PATH
 ## sudo echo 'export PATH=$PATH:/usr/local/pgsql/bin' >> /root/.bashrc
 
 # Install H3 if not installed
