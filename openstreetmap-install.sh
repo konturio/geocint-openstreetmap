@@ -21,6 +21,7 @@ sudo apt-get install -y gdal-bin
 # Installing Postgres
 sudo apt install -y postgresql postgresql-contrib
 sudo systemctl start postgresql.service
+sudo apt install -y postgresql-common
 
 ## Create postgres user/group
 groupadd -r postgres
@@ -35,33 +36,10 @@ sudo apt install -y postgresql-server-dev-$pg_version
 
 # Installing pgxnclient
 sudo apt install -y pgxnclient
-## pgxn has to call pg_config, add PG binaries to PATH
-## sudo echo 'export PATH=$PATH:/usr/local/pgsql/bin' >> /root/.bashrc
-
-# Install H3 if not installed
-if [ -d "/usr/lib/postgresql/$pg_version/lib/bitcode/h3/" ] && [ -e "/usr/lib/postgresql/$pg_version/lib/bitcode/h3.index.bc" ] && [ -e "/usr/lib/postgresql/$pg_version/lib/h3.so" ]
-then
-   echo "Skip h3 installation: h3 already installed"
-else
-   echo "h3 doesn't exist, run h3 installation"
-   sudo pgxn install h3  
-fi
-
-# Ubuntu Postgres stuff
-sudo apt install -y postgresql-common
 
 ## Reset locale variables in case they were modified
 . /usr/share/postgresql-common/maintscripts-functions
 set_system_locale
-
-## Create cluster main if not exists and systemd service
-if [ -d "/etc/postgresql/$pg_version/main" ]
-then
-   echo "Skip creation main cluster for postgres $pg_version:  cluster $pg_version main already exists"
-else
-   echo "$pg_version main doesn't exist, run cluster creation"
-   sudo pg_createcluster $pg_version main
-fi
 
 ## Comment out "states_temp_directory" parameter from config (not recognized by PG15)
 sudo sed -i 's/stats_temp_directory/#stats_temp_directory/g' /etc/postgresql/$pg_version/main/postgresql.conf
