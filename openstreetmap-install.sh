@@ -21,6 +21,7 @@ sudo apt-get install -y gdal-bin
 # Installing Postgres
 sudo apt install -y postgresql postgresql-contrib
 sudo systemctl start postgresql.service
+sudo apt install -y postgresql-common
 
 ## Create postgres user/group
 groupadd -r postgres
@@ -35,22 +36,10 @@ sudo apt install -y postgresql-server-dev-$pg_version
 
 # Installing pgxnclient
 sudo apt install -y pgxnclient
-## pgxn has to call pg_config, add PG pinaries to PATH
-sudo echo 'export PATH=$PATH:/usr/local/pgsql/bin' >> /root/.bashrc
-
-# Installing H3
-sudo pgxn install h3
-
-# Ubuntu Postgres stuff
-sudo apt install -y postgresql-common
 
 ## Reset locale variables in case they were modified
 . /usr/share/postgresql-common/maintscripts-functions
 set_system_locale
 
-## Create cluster and systemd service
-sudo pg_createcluster $pg_version main 
-
 ## Comment out "states_temp_directory" parameter from config (not recognized by PG15)
 sudo sed -i 's/stats_temp_directory/#stats_temp_directory/g' /etc/postgresql/$pg_version/main/postgresql.conf
-
