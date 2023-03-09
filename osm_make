@@ -34,5 +34,6 @@ db/table/osm_meta: data/planet-latest-updated.osm.pbf | db/table ## Metadata for
 	touch $@
 
 db/index/osm_tags_idx: db/table/osm | db/index ## GIN index on planet OpenStreetMap dataset tags column.
+	psql -c "drop index if exists osm_tags_idx;"
 	psql -c "create index osm_tags_idx on osm using gin (tags);"
 	touch $@
