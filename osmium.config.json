@@ -18,6 +18,7 @@
     "aeroway",
     "amenity",
     "building",
+    "building:part",
     "landuse",
     "leisure",
     "man_made",
