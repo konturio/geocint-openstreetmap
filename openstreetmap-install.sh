@@ -19,7 +19,10 @@ sudo apt-get install -y liblcms2-dev libtiff-dev libpng-dev libz-dev libjson-c-d
 sudo apt-get install -y gdal-bin
 
 # Installing Postgres
-sudo apt install -y postgresql postgresql-contrib
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo tee /etc/apt/trusted.gpg.d/pgdg.asc &>/dev/null
+sudo apt update
+sudo apt install -y postgresql-17 postgresql-contrib
 sudo systemctl start postgresql.service
 sudo apt install -y postgresql-common
 
