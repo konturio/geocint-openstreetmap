@@ -22,7 +22,7 @@ sudo apt-get install -y gdal-bin
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo tee /etc/apt/trusted.gpg.d/pgdg.asc &>/dev/null
 sudo apt update
-sudo apt install -y postgresql-17 postgresql-contrib
+sudo apt install -y postgresql-17 postgresql-contrib-17
 sudo systemctl start postgresql.service
 sudo apt install -y postgresql-common
 
